@@ -339,22 +339,20 @@
         </section>
 
         <!-- SECCIÓN FORMULARIO RSVP -->
-        <section id="rsvp" class="neon-dark-texture max-w-4xl mx-auto py-24 px-4 relative mt-16 rounded-3xl w-full">
-            <div class="max-w-3xl mx-auto">
-                <div class="glass-card-neon scroll-glow-item p-8 md:p-10 rounded-3xl relative text-center flex flex-col items-center justify-center">
+        <section id="rsvp" class="max-w-3xl mx-auto py-16 px-4 relative mt-12 w-full">
+            <div class="w-full mx-auto">
+                <div class="glass-card-neon scroll-glow-item p-6 sm:p-10 rounded-3xl relative text-center flex flex-col items-center justify-center">
                     <div class="mb-6 flex flex-col items-center justify-center w-full">
                         <h2 class="text-3xl font-display font-extrabold text-white uppercase text-center glow-hover-orange inline-block">
                             Confirma tu Asistencia
                         </h2>
                         
-                        <div class="mt-5 p-5 rounded-2xl bg-orange-950/40 border border-neon-orange/40 max-w-xl mx-auto shadow-[0_0_20px_rgba(255,94,0,0.15)]">
-                            <p class="text-xs md:text-sm text-gray-200 font-mono-code leading-relaxed text-center uppercase tracking-wider">
-                                Para organizar cada detalle de nuestra celebración,<br>
-                                solicitamos confirmar su asistencia antes del<br>
-                                <strong class="text-neon-orange font-bold glow-hover-orange inline-block">30 de septiembre de 2026</strong>.<br>
-                                Agradeceríamos de gran manera su respuesta a tiempo.
-                            </p>
-                        </div>
+                        <p class="mt-4 text-xs md:text-sm text-gray-200 font-mono-code leading-relaxed text-center uppercase tracking-wider max-w-xl mx-auto">
+                            Para organizar cada detalle de nuestra celebración,<br>
+                            solicitamos confirmar su asistencia antes del<br>
+                            <strong class="text-neon-orange font-bold glow-hover-orange inline-block">30 de septiembre de 2026</strong>.<br>
+                            Agradeceríamos de gran manera su respuesta a tiempo.
+                        </p>
 
                         <p id="guestBadge" class="mt-5 text-neon-cyan font-mono-code text-sm uppercase tracking-wider bg-[#1f060f] py-2 px-4 rounded-xl border border-neon-cyan/30 inline-block text-center shadow-[0_0_15px_rgba(0,243,255,0.2)]"></p>
                     </div>
@@ -515,13 +513,15 @@
 
         audioEl.volume = volumeSlider.value;
 
-                function setupAudioContext() {
+                        function setupAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
                 analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 256; // 128 bins para mayor detalle espectral
-                analyser.smoothingTimeConstant = 0.78; // Respuesta ágil y dinámica
+                analyser.fftSize = 512; // 256 bandas de análisis para máxima definición espectral
+                analyser.minDecibels = -85;
+                analyser.maxDecibels = -15;
+                analyser.smoothingTimeConstant = 0.65; // Caída rápida y reactiva
                 source = audioCtx.createMediaElementSource(audioEl);
                 source.connect(analyser);
                 analyser.connect(audioCtx.destination);
@@ -536,20 +536,23 @@
                 requestAnimationFrame(renderVuMeter);
                 analyser.getByteFrequencyData(dataArray);
 
-                // Mapeo musical balanceado (sub, graves, medios, brillos)
-                const binIndices = [1, 2, 3, 5, 8, 12, 17, 23, 30, 38, 48, 59, 72, 86, 101, 118];
-                const gains = [1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75];
+                // Índices distribuidos musicalmente (sub-graves a agudos finos)
+                const binIndices = [2, 4, 7, 11, 16, 23, 32, 43, 56, 72, 90, 112, 138, 168, 202, 240];
+                const gains = [0.95, 0.95, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6];
 
                 vuBars.forEach((bar, i) => {
-                    const bin = binIndices[i];
-                    let val = (dataArray[bin] || 0) * gains[i];
-                    let targetHeight = Math.max(4, Math.min(26, Math.floor((val / 255) * 22) + 4));
+                    const bin = binIndices[i] || i;
+                    let raw = (dataArray[bin] || 0) * gains[i];
+                    let normalized = Math.min(1.0, raw / 255.0);
+                    
+                    // Expansión dinámica exponencial (evita que se peguen arriba y da pegada real)
+                    let curved = Math.pow(normalized, 1.75);
+                    let targetHeight = Math.max(4, Math.min(26, Math.floor(curved * 22) + 4));
 
-                    // Caída suave estilo DJ mixer Pioneer
                     if (targetHeight > barHeights[i]) {
                         barHeights[i] = targetHeight;
                     } else {
-                        barHeights[i] = Math.max(4, barHeights[i] - 1.2);
+                        barHeights[i] = Math.max(4, barHeights[i] - 1.8);
                     }
 
                     bar.style.height = barHeights[i].toFixed(1) + 'px';
