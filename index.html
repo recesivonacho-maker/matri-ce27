@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación de Boda - C&E '27</title>
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neon: {
+                            cyan: '#00f3ff',
+                            green: '#39ff14',
+                            magenta: '#ff007f',
+                            orange: '#ff5e00',
+                            purple: '#b026ff'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Syne', 'sans-serif'],
+                        mono: ['Space Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&family=Space+Mono:wght@400;700&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #e2e8f0;
+            overflow-x: hidden;
+            min-height: 100vh;
+            margin: 0;
+            background-color: #050104;
+            text-align: center;
+        }
+
+        .absolute-fixed-sunset {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background-image: linear-gradient(to bottom, rgba(20, 5, 2, 0.25) 20%, rgba(10, 2, 5, 0.75) 75%, #050104 100%), url('sunset.png');
+            background-size: cover;
+            background-position: center bottom;
+            z-index: 0;
+            pointer-events: none;
+            filter: contrast(115%) brightness(85%) saturate(110%);
+        }
+
+        .neon-dark-texture {
+            background: radial-gradient(circle at 50% 30%, rgba(77, 24, 7, 0.5) 0%, rgba(15, 3, 8, 0.92) 60%, #030105 100%);
+        }
+
+        .font-display { font-family: 'Syne', sans-serif; }
+        .font-mono-code { font-family: 'Space Mono', monospace; }
+
+        .glass-card {
+            background: rgba(20, 5, 10, 0.9);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 94, 0, 0.75);
+            box-shadow: 0 0 25px rgba(255, 94, 0, 0.5), inset 0 0 15px rgba(255, 94, 0, 0.2);
+            transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform, box-shadow;
+        }
+        .glass-card:hover {
+            border-color: rgba(255, 94, 0, 1) !important;
+            box-shadow: 0 0 45px rgba(255, 94, 0, 0.9), 0 0 80px rgba(255, 0, 127, 0.45), inset 0 0 25px rgba(255, 94, 0, 0.4) !important;
+            transform: translateY(-5px) scale(1.03) !important;
+        }
+
+        .glass-card-neon {
+            background: rgba(30, 8, 15, 0.95);
+            backdrop-filter: blur(20px);
+            border: 2px solid rgba(255, 94, 0, 0.85);
+            box-shadow: 0 0 45px rgba(255, 94, 0, 0.55), 0 0 80px rgba(255, 0, 127, 0.3), inset 0 0 25px rgba(255, 94, 0, 0.25);
+            transition: all 0.25s ease;
+        }
+        .glass-card-neon:hover {
+            border-color: rgba(255, 94, 0, 1);
+            box-shadow: 0 0 60px rgba(255, 94, 0, 0.85), 0 0 100px rgba(255, 0, 127, 0.5), inset 0 0 35px rgba(255, 94, 0, 0.4);
+        }
+
+        .scroll-glow-item {
+            opacity: 0.92;
+            transition: opacity 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+        }
+        .scroll-glow-item.active {
+            opacity: 1;
+            box-shadow: 0 0 40px rgba(255, 94, 0, 0.75), 0 0 70px rgba(255, 0, 127, 0.35), inset 0 0 20px rgba(255, 94, 0, 0.3);
+            border-color: rgba(255, 94, 0, 0.95);
+            transform: translateY(-2px) scale(1.02);
+        }
+
+        .glow-hover-orange {
+            display: inline-block;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 94, 0, 0.8), 0 0 20px rgba(255, 94, 0, 0.5);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform, text-shadow;
+        }
+        .glow-hover-orange:hover, .glow-hover-orange.active {
+            color: #fff !important;
+            text-shadow: 0 0 15px #ff5e00, 0 0 35px #ff5e00, 0 0 60px #ff007f, 0 0 90px #ff007f !important;
+            transform: scale(1.06) !important;
+        }
+
+        .glow-hover-green {
+            display: inline-block;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(57, 255, 20, 0.8), 0 0 20px rgba(57, 255, 20, 0.5);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform, text-shadow;
+        }
+        .glow-hover-green:hover, .glow-hover-green.active {
+            color: #fff !important;
+            text-shadow: 0 0 15px #39ff14, 0 0 35px #39ff14, 0 0 60px #00f3ff, 0 0 90px #00f3ff !important;
+            transform: scale(1.06) !important;
+        }
+
+        .glow-hover-magenta {
+            display: inline-block;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.5);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform, text-shadow;
+        }
+        .glow-hover-magenta:hover, .glow-hover-magenta.active {
+            color: #fff !important;
+            text-shadow: 0 0 15px #ff007f, 0 0 35px #ff007f, 0 0 60px #b026ff, 0 0 90px #b026ff !important;
+            transform: scale(1.06) !important;
+        }
+
+        .glow-hover-cyan {
+            display: inline-block;
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.8), 0 0 20px rgba(0, 243, 255, 0.5);
+            transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            will-change: transform, text-shadow;
+        }
+        .glow-hover-cyan:hover, .glow-hover-cyan.active {
+            color: #fff !important;
+            text-shadow: 0 0 15px #00f3ff, 0 0 35px #00f3ff, 0 0 60px #00f3ff, 0 0 90px #39ff14 !important;
+            transform: scale(1.06) !important;
+        }
+
+        .vumeter-container {
+            display: flex;
+            align-items: flex-end;
+            gap: 2.5px;
+            height: 32px;
+            padding: 4px 10px;
+            background: rgba(10, 2, 5, 0.95);
+            border: 1.5px solid rgba(255, 94, 0, 0.75);
+            border-radius: 9px;
+            box-shadow: 0 0 18px rgba(255, 94, 0, 0.5);
+        }
+        .vumeter-bar {
+            width: 3.5px;
+            background: #ff5e00;
+            border-radius: 2px;
+            height: 4px;
+            transition: height 0.05s ease;
+            box-shadow: 0 0 8px #ff5e00;
+        }
+        .vumeter-bar:nth-child(even) { background: #00f3ff; box-shadow: 0 0 8px #00f3ff; }
+        .vumeter-bar:nth-child(3n) { background: #ff007f; box-shadow: 0 0 8px #ff007f; }
+        .vumeter-bar:nth-child(4n) { background: #39ff14; box-shadow: 0 0 8px #39ff14; }
+
+        .scanline {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.15) 50%), linear-gradient(90deg, rgba(255, 0, 127, 0.01), rgba(0, 243, 255, 0.01));
+            background-size: 100% 4px, 6px 100%;
+            pointer-events: none;
+            z-index: 20;
+            opacity: 0.3;
+        }
+    </style>
+</head>
+<body class="selection:bg-neon-orange selection:text-black relative">
+
+    <div class="absolute-fixed-sunset"></div>
+    <div class="scanline"></div>
+    <canvas id="forestCanvas" class="fixed top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
+
+    <header class="fixed top-0 left-0 right-0 z-50 px-4 py-3 bg-[#1f060f]/90 backdrop-blur-md border-b border-orange-900/40">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+            <div class="flex items-center gap-2">
+                <div class="vumeter-container" id="vumeter">
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                    <div class="vumeter-bar"></div><div class="vumeter-bar"></div>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-3 bg-[#14050a]/90 px-3 py-1.5 rounded-xl border border-orange-500/40 shadow-[0_0_15px_rgba(255,94,0,0.2)]">
+                <button onclick="toggleAudio()" id="playBtn" class="w-7 h-7 rounded-lg bg-neon-orange text-black flex items-center justify-center font-bold shadow-[0_0_10px_rgba(255,94,0,0.8)] hover:scale-105 transition-all">
+                    ▶
+                </button>
+                <span id="audioStatusText" class="text-xs font-mono-code text-orange-300 uppercase tracking-wider hidden sm:inline">
+                    Soundtrack
+                </span>
+                <div class="flex items-center gap-1.5 pl-2 border-l border-orange-500/30">
+                    <span class="text-[10px] text-orange-400">🔊</span>
+                    <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.8" onchange="adjustVolume(this.value)" oninput="adjustVolume(this.value)" class="w-16 sm:w-20 accent-[#ff5e00] cursor-pointer h-1 bg-gray-700 rounded-lg">
+                </div>
+                <audio id="bgAudio" loop preload="auto">
+                    <source src="cancion.mp3" type="audio/mp3">
+                </audio>
+            </div>
+
+            <div class="hidden md:block">
+                <a href="#rsvp" class="px-4 py-1.5 rounded-full bg-neon-orange text-black font-extrabold text-xs uppercase tracking-wider hover:bg-white transition-all shadow-[0_0_15px_rgba(255,94,0,0.6)]">
+                    CONFIRMAR
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="relative z-30 pt-24 max-w-5xl mx-auto px-4 flex flex-col items-center">
+        
+        <section class="w-full max-w-4xl mx-auto min-h-[85vh] flex flex-col justify-center items-center text-center py-12 relative">
+            
+            <div class="inline-flex items-center justify-center gap-2 px-4 py-2 rounded-full glass-card border-neon-orange/60 mb-6 mx-auto">
+                <i data-lucide="sparkles" class="w-4 h-4 text-neon-orange"></i>
+                <span class="text-xs md:text-sm font-mono-code text-orange-200 tracking-widest uppercase font-bold glow-hover-orange">
+                    EDICIÓN LIMITADA EN LA NATURALEZA
+                </span>
+            </div>
+
+            <div class="w-full max-w-3xl mx-auto flex flex-col items-center justify-center space-y-4 mb-6 px-4">
+                
+                <div id="guestGreeting" class="text-xs md:text-sm font-mono-code text-orange-200/90 tracking-widest uppercase leading-relaxed w-full text-center">
+                    ¡ESTIMADO/A INVITADO/A!<br>ESTÁS INVITADO AL RITUAL DE UNIÓN DE
+                </div>
+
+                <div class="w-full flex flex-col items-center justify-center my-2">
+                    <h1 class="text-5xl sm:text-7xl md:text-8xl font-display font-extrabold uppercase tracking-tight text-white leading-none select-none">
+                        <span class="glow-hover-orange inline-block">CATALINA</span> 
+                        <span class="glow-hover-cyan text-4xl sm:text-6xl md:text-7xl font-sans px-2 inline-block">&</span> 
+                        <span class="glow-hover-green inline-block">ERNESTO</span>
+                    </h1>
+                </div>
+
+                <div id="poeticText" class="text-xs md:text-sm text-orange-200/90 font-mono-code tracking-wider block max-w-xl mx-auto leading-relaxed text-center uppercase">
+                    HAY MOMENTOS EN LA VIDA QUE MERECEN SER CELEBRADOS CON EL ALMA. QUEREMOS QUE <span id="verboUnion">SEAS</span> PARTE DE NUESTRO RITUAL DE UNIÓN, ACOMPAÑANDO ESTE GRAN MOMENTO CON EL CARIÑO Y LA ENERGÍA DE ESTAR TODOS REUNIDOS.
+                </div>
+
+                <p class="text-sm md:text-base font-mono-code text-orange-300 tracking-widest uppercase pt-2 w-full text-center glow-hover-orange">
+                    AMOR, AMIGOS, FAMILIA Y FIESTA
+                </p>
+            </div>
+
+            <div class="grid grid-cols-2 gap-2.5 sm:gap-4 w-full max-w-2xl my-8 mx-auto items-stretch">
+                <div class="glass-card scroll-glow-item p-3 sm:p-4 rounded-2xl flex flex-col justify-between gap-2">
+                    <div class="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <i data-lucide="calendar" class="w-4 h-4 sm:w-6 sm:h-6 text-neon-orange shrink-0 mt-0.5 sm:mt-0"></i>
+                        <div class="text-left font-mono-code">
+                            <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Fecha del Evento</div>
+                            <div class="text-xs sm:text-base font-bold text-white glow-hover-orange leading-tight sm:leading-normal">Sábado, 16 de Enero 2027</div>
+                        </div>
+                    </div>
+                    <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Catalina+%26+Ernesto&dates=20270116T160000Z/20270117T060000Z&details=Ritual+de+uni%C3%B3n+y+fiesta+C%26E+%2727&location=Chanco%2C+Regi%C3%B3n+del+Maule+%28Sector+Los+Peumos%29" target="_blank" rel="noopener" class="mt-1 w-full py-1.5 px-1.5 sm:px-3 rounded-xl bg-neon-orange/20 border border-neon-orange/50 text-neon-orange font-mono-code text-[10px] sm:text-xs text-center uppercase tracking-tight sm:tracking-wider hover:bg-neon-orange hover:text-black transition-all block">
+                        📅 <span class="hidden sm:inline">Agendar en </span>Calendar
+                    </a>
+                </div>
+
+                <div class="glass-card scroll-glow-item p-3 sm:p-4 rounded-2xl flex flex-col justify-between gap-2">
+                    <div class="flex items-start sm:items-center gap-2 sm:gap-3">
+                        <i data-lucide="map-pin" class="w-4 h-4 sm:w-6 sm:h-6 text-neon-cyan shrink-0 mt-0.5 sm:mt-0"></i>
+                        <div class="text-left font-mono-code">
+                            <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Ubicación Mística</div>
+                            <div class="text-xs sm:text-sm font-bold text-white glow-hover-cyan leading-tight sm:leading-normal">Chanco, Maule <span class="text-[10px] sm:text-xs text-gray-300 block sm:inline">(Los Peumos)</span></div>
+                        </div>
+                    </div>
+                    <a href="https://maps.app.goo.gl/kNDtUamw8jJJ6XBs8" target="_blank" rel="noopener" class="mt-1 w-full py-1.5 px-1.5 sm:px-3 rounded-xl bg-neon-orange/20 border border-neon-orange/50 text-neon-orange font-mono-code text-[10px] sm:text-xs text-center uppercase tracking-tight sm:tracking-wider hover:bg-neon-orange hover:text-black transition-all block">
+                        🗺️ <span class="hidden sm:inline">Ver en </span>Google Maps
+                    </a>
+                </div>
+            </div>
+
+            <div class="w-full max-w-2xl my-6 mx-auto">
+                <div class="text-xs font-mono-code text-orange-300 uppercase tracking-widest mb-4 text-center">
+                    Cuenta Regresiva para el Fiestón
+                </div>
+                <div class="grid grid-cols-4 gap-2 sm:gap-4 text-center justify-center">
+                    <div class="glass-card scroll-glow-item p-3 sm:p-5 rounded-2xl flex flex-col items-center justify-center">
+                        <span id="cd-days" class="block text-2xl sm:text-4xl md:text-5xl font-mono-code font-bold glow-hover-orange">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono-code uppercase">Días</span>
+                    </div>
+                    <div class="glass-card scroll-glow-item p-3 sm:p-5 rounded-2xl flex flex-col items-center justify-center">
+                        <span id="cd-hours" class="block text-2xl sm:text-4xl md:text-5xl font-mono-code font-bold glow-hover-green">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono-code uppercase">Horas</span>
+                    </div>
+                    <div class="glass-card scroll-glow-item p-3 sm:p-5 rounded-2xl flex flex-col items-center justify-center">
+                        <span id="cd-minutes" class="block text-2xl sm:text-4xl md:text-5xl font-mono-code font-bold glow-hover-magenta">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono-code uppercase">Minutos</span>
+                    </div>
+                    <div class="glass-card scroll-glow-item p-3 sm:p-5 rounded-2xl flex flex-col items-center justify-center">
+                        <span id="cd-seconds" class="block text-2xl sm:text-4xl md:text-5xl font-mono-code font-bold glow-hover-cyan">00</span>
+                        <span class="text-[10px] sm:text-xs text-gray-400 font-mono-code uppercase">Segundos</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-4 mt-8">
+                <a href="#rsvp" class="px-8 py-4 rounded-full bg-gradient-to-r from-neon-orange via-neon-magenta to-neon-cyan text-black font-extrabold text-sm uppercase tracking-wider shadow-[0_0_25px_rgba(255,94,0,0.6)] hover:scale-105 transition-all">
+                     Confirmar Asistencia
+                </a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN FORMULARIO RSVP -->
+        <section id="rsvp" class="neon-dark-texture max-w-4xl mx-auto py-24 px-4 relative mt-16 rounded-3xl w-full">
+            <div class="max-w-3xl mx-auto">
+                <div class="glass-card-neon scroll-glow-item p-8 md:p-10 rounded-3xl relative text-center flex flex-col items-center justify-center">
+                    <div class="mb-6 flex flex-col items-center justify-center w-full">
+                        <h2 class="text-3xl font-display font-extrabold text-white uppercase text-center glow-hover-orange inline-block">
+                            Confirma tu Asistencia
+                        </h2>
+                        
+                        <div class="mt-5 p-5 rounded-2xl bg-orange-950/40 border border-neon-orange/40 max-w-xl mx-auto shadow-[0_0_20px_rgba(255,94,0,0.15)]">
+                            <p class="text-xs md:text-sm text-gray-200 font-mono-code leading-relaxed text-center uppercase tracking-wider">
+                                Para organizar cada detalle de nuestra celebración,<br>
+                                solicitamos confirmar su asistencia antes del<br>
+                                <strong class="text-neon-orange font-bold glow-hover-orange inline-block">30 de septiembre de 2026</strong>.<br>
+                                Agradeceríamos de gran manera su respuesta a tiempo.
+                            </p>
+                        </div>
+
+                        <p id="guestBadge" class="mt-5 text-neon-cyan font-mono-code text-sm uppercase tracking-wider bg-[#1f060f] py-2 px-4 rounded-xl border border-neon-cyan/30 inline-block text-center shadow-[0_0_15px_rgba(0,243,255,0.2)]"></p>
+                    </div>
+
+                    <form id="rsvpForm" onsubmit="handleRSVPSubmit(event)" class="space-y-6 max-w-md mx-auto text-center w-full">
+                        <div>
+                            <label class="block text-xs font-mono-code text-neon-orange uppercase mb-2 text-center">Selecciona tu opción de asistencia *</label>
+                            <select id="attendanceOption" required onchange="toggleAttendanceFields()" class="w-full px-4 py-3.5 rounded-xl bg-[#1f060f] border border-orange-700/60 text-white text-sm focus:outline-none focus:border-neon-orange font-bold text-center transition-all">
+                            </select>
+                        </div>
+                        
+                        <div id="conditionalFields" class="space-y-6">
+                            
+                            <!-- MENCIÓN HIJOS PEQUEÑOS -->
+                            <div id="kidsSection" class="hidden p-3.5 rounded-2xl bg-orange-950/30 border border-neon-orange/40 text-center">
+                                <p class="text-xs font-mono-code text-orange-200 uppercase">
+                                    👶 Asistencia familiar confirmada para todo el evento junto a sus pequeños.
+                                </p>
+                            </div>
+
+                            <!-- SECCIÓN 2: HIJOS MAYORES (FIESTA POST-CENA ~23:00 HRS) -->
+                            <div id="fiestaSection" class="hidden p-5 rounded-2xl bg-[#260515]/80 border-2 border-neon-magenta/60 space-y-4 shadow-[0_0_20px_rgba(255,0,127,0.25)]">
+                                <div class="flex items-center justify-center gap-2 text-neon-magenta font-bold font-mono-code text-xs uppercase">
+                                    <span>🎉</span> Invitación Especial a la Fiesta (Desde las 23:00 hrs)
+                                </div>
+                                <p class="text-[11px] text-gray-300 font-mono-code leading-relaxed text-center uppercase">
+                                    Tus hijos están cordialmente invitados a sumarse directamente a la fiesta, barra libre y festival electrónico post-cena. ¿Nos acompañarán?
+                                </p>
+                                <div id="fiestaListContainer" class="space-y-3 text-left font-mono-code text-xs"></div>
+                            </div>
+
+                            <!-- Preferencias Alimentarias -->
+                            <div id="foodSection">
+                                <label class="block text-xs font-mono-code text-neon-orange uppercase mb-2 text-center">Preferencias Alimentarias *</label>
+                                <select id="foodPreference" class="w-full px-4 py-3.5 rounded-xl bg-[#1f060f] border border-orange-700/60 text-white text-sm focus:outline-none focus:border-neon-orange font-bold text-center transition-all">
+                                    <option value="Normal">Normal (Sin restricciones)</option>
+                                    <option value="Vegetariana">Vegetariana</option>
+                                    <option value="Vegana">Vegana</option>
+                                </select>
+                            </div>
+
+                            <!-- Alergias -->
+                            <div id="alergiesSection">
+                                <label class="block text-xs font-mono-code text-neon-cyan uppercase mb-2 text-center">¿Tienes alguna alergia o restricción alimentaria? (Opcional)</label>
+                                <textarea id="guestAlergies" rows="2" placeholder="Ej: Celíaco, alérgico a los mariscos, frutos secos, etc..." class="w-full px-4 py-3 rounded-xl bg-[#1f060f] border border-cyan-700/60 text-white text-sm focus:outline-none focus:border-neon-cyan text-center transition-all"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Mensaje de despedida (si no asiste) -->
+                        <div id="messageSection" class="hidden space-y-2">
+                            <label class="block text-xs font-mono-code text-neon-magenta uppercase mb-2 text-center">¿Quieres dejarle un mensaje a los novios?</label>
+                            <textarea id="guestMessage" rows="3" placeholder="Escribe un mensaje cariñoso para Catalina y Ernesto..." class="w-full px-4 py-3 rounded-xl bg-[#1f060f] border border-magenta-700/60 text-white text-sm focus:outline-none focus:border-neon-magenta text-center transition-all"></textarea>
+                        </div>
+
+                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-neon-orange via-neon-magenta to-neon-cyan text-black font-extrabold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(255,94,0,0.6)] hover:scale-[1.02] transition-all">
+                            Enviar Confirmación
+                        </button>
+                    </form>
+
+                    <!-- TICKET & QR -->
+                    <div id="ticketResult" class="hidden mt-8 p-4 sm:p-6 rounded-2xl bg-[#1f060f]/95 border-2 border-neon-orange text-center space-y-4 flex flex-col items-center justify-center w-full max-w-full overflow-hidden shadow-[0_0_30px_rgba(255,94,0,0.4)]">
+                        <h3 id="ticketTitle" class="text-lg sm:text-2xl font-display font-extrabold text-white uppercase text-center tracking-tight sm:tracking-normal glow-hover-orange px-1 max-w-full leading-snug break-words">¡Asistencia Registrada!</h3>
+                        <p id="ticketGuestName" class="text-base font-bold text-neon-cyan text-center"></p>
+                        
+                        <div id="qrSection" class="w-full flex flex-col items-center space-y-4">
+                            <p id="ticketSubtitle" class="text-xs text-gray-300 font-mono-code text-center">Presenta este código QR el día del evento:</p>
+                            <div class="bg-white p-4 rounded-2xl inline-block shadow-2xl mx-auto border-2 border-neon-orange">
+                                <img id="qrImage" src="" alt="Código QR de Acceso" class="w-36 h-36 mx-auto block rounded-lg">
+                            </div>
+                            
+                            <div class="p-3 rounded-xl bg-black/40 border border-orange-500/30 w-full">
+                                <p class="text-xs text-orange-200 font-mono-code leading-relaxed uppercase">
+                                    Próximamente te enviaremos mayor información.
+                                </p>
+                            </div>
+                        </div>
+
+                        <div id="noAttendanceMsg" class="hidden p-4 rounded-xl bg-orange-950/40 border border-neon-orange/40 w-full space-y-3">
+                            <p class="text-xs text-gray-200 font-mono-code leading-relaxed uppercase">
+                                Agradecemos enormemente que te hayas tomado el tiempo de contestar. Lamentamos que no nos puedas acompañar 😔 ¡Te enviamos un abrazo gigante!
+                            </p>
+                            <div id="messagePreviewContainer" class="hidden pt-2 border-t border-orange-800/50">
+                                <p class="text-[10px] text-orange-400 font-mono-code uppercase tracking-wider mb-1">Tu mensaje para los novios:</p>
+                                <p id="displayGuestMessage" class="text-xs text-neon-magenta font-mono-code italic bg-black/30 p-2.5 rounded-lg border border-magenta-900/40"></p>
+                            </div>
+                        </div>
+
+                        <button type="button" onclick="editResponse()" class="mt-2 px-5 py-2 rounded-xl bg-orange-950/60 border border-neon-orange/50 text-neon-orange font-mono-code text-xs uppercase tracking-wider hover:bg-neon-orange hover:text-black transition-all">
+                            ✏️ Cambiar mi respuesta
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="neon-dark-texture max-w-4xl mx-auto text-center py-12 border-t border-orange-900/40 px-4 mt-16 rounded-3xl w-full">
+            <h4 class="text-2xl font-display font-extrabold text-white uppercase text-center">
+                <span class="glow-hover-orange inline-block">CATALINA</span> & <span class="glow-hover-green inline-block">ERNESTO</span>
+            </h4>
+        </footer>
+    </main>
+
+    <script>
+        lucide.createIcons();
+
+        let guestFullName = "";
+        let guestCompanion = "";
+        let hasCompanion = false;
+        let storageKey = "";
+        let kidsList = [];
+        let fiestaList = [];
+
+        // Detección táctil vs ratón para unificar Hover en PC y Scroll Glow en móvil
+        const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        
+        if (isTouchDevice) {
+            // En Celular: Glow dinámico por Scroll al centro de pantalla
+            const glowElements = document.querySelectorAll('.scroll-glow-item, .glow-hover-orange, .glow-hover-cyan, .glow-hover-green, .glow-hover-magenta');
+            const observerOptions = {
+                root: null,
+                rootMargin: '-10% 0px -10% 0px',
+                threshold: 0.15
+            };
+            const scrollObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    } else {
+                        entry.target.classList.remove('active');
+                    }
+                });
+            }, observerOptions);
+
+            glowElements.forEach(el => scrollObserver.observe(el));
+        } else {
+            // En PC: Hover reactivo al 100% sin interferencias de scroll
+            const cards = document.querySelectorAll('.scroll-glow-item');
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                });
+            }, { root: null, rootMargin: '0px', threshold: 0.1 });
+            cards.forEach(c => cardObserver.observe(c));
+        }
+
+        // Audio + Vúmetro Web Audio API
+        const audioEl = document.getElementById('bgAudio');
+        const playBtn = document.getElementById('playBtn');
+        const statusText = document.getElementById('audioStatusText');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const vuBars = document.querySelectorAll('.vumeter-bar');
+        
+        let isPlaying = false;
+        let audioCtx = null;
+        let analyser = null;
+        let source = null;
+        let dataArray = null;
+
+        audioEl.volume = volumeSlider.value;
+
+        function setupAudioContext() {
+            if (!audioCtx) {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                audioCtx = new AudioContext();
+                analyser = audioCtx.createAnalyser();
+                analyser.fftSize = 128; // Mayor resolución de muestreo
+                analyser.smoothingTimeConstant = 0.82;
+                source = audioCtx.createMediaElementSource(audioEl);
+                source.connect(analyser);
+                analyser.connect(audioCtx.destination);
+                dataArray = new Uint8Array(analyser.frequencyBinCount);
+            }
+        }
+
+        function renderVuMeter() {
+            if (isPlaying && analyser) {
+                requestAnimationFrame(renderVuMeter);
+                analyser.getByteFrequencyData(dataArray);
+
+                // Mapeo logarítmico con curva de ganancia para agudos y dinámica en graves
+                const gains = [0.85, 0.9, 0.95, 1.0, 1.1, 1.2, 1.35, 1.5, 1.7, 1.9, 2.2, 2.5, 2.8, 3.2, 3.6, 4.0];
+                const binIndices = [1, 2, 3, 4, 6, 8, 10, 13, 16, 20, 24, 28, 33, 38, 44, 50];
+
+                vuBars.forEach((bar, i) => {
+                    const bin = binIndices[i] || i;
+                    let rawVal = dataArray[bin] || 0;
+                    let boosted = rawVal * gains[i];
+                    let normalized = Math.min(255, boosted);
+                    
+                    // Altura orgánica de 4px a 26px
+                    const height = Math.max(4, Math.floor((normalized / 255) * 22) + 4);
+                    bar.style.height = height + 'px';
+                });
+            } else {
+                vuBars.forEach(bar => { bar.style.height = '4px'; });
+            }
+        }
+
+        function toggleAudio() {
+            try {
+                setupAudioContext();
+                if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+            } catch (e) { console.log(e); }
+
+            if (isPlaying) {
+                audioEl.pause();
+                playBtn.textContent = "▶";
+                statusText.textContent = "Soundtrack";
+                isPlaying = false;
+            } else {
+                audioEl.play().then(() => {
+                    playBtn.textContent = "⏸";
+                    statusText.textContent = "Sonando";
+                    isPlaying = true;
+                    renderVuMeter();
+                }).catch(e => console.log(e));
+            }
+        }
+
+        function adjustVolume(val) { audioEl.volume = val; }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const invitado = urlParams.get('invitado');
+            const acompanante = urlParams.get('acompanante');
+            const trato = urlParams.get('trato');
+            const grupo = urlParams.get('grupo');
+
+            // 1. Hijos Cena (hijo1, hijo2)
+            const h1 = urlParams.get('hijo1');
+            const h2 = urlParams.get('hijo2');
+            kidsList = [];
+            [h1, h2].forEach(h => {
+                if (h && h.toLowerCase() !== 'nan' && h.trim() !== '' && h.toLowerCase() !== 'no') {
+                    kidsList.push(decodeURIComponent(h).trim().toUpperCase());
+                }
+            });
+
+            // 2. Hijos Fiesta (fiesta1, fiesta2, fiesta3)
+            const f1 = urlParams.get('fiesta1');
+            const f2 = urlParams.get('fiesta2');
+            const f3 = urlParams.get('fiesta3');
+            fiestaList = [];
+            [f1, f2, f3].forEach(f => {
+                if (f && f.toLowerCase() !== 'nan' && f.trim() !== '' && f.toLowerCase() !== 'no') {
+                    fiestaList.push(decodeURIComponent(f).trim().toUpperCase());
+                }
+            });
+
+            // Renderizar Sección Hijos Pequeños
+            const kidsSection = document.getElementById('kidsSection');
+            if (kidsList.length > 0) {
+                kidsSection.classList.remove('hidden');
+            } else {
+                kidsSection.classList.add('hidden');
+            }
+
+            // Renderizar Sección Hijos Fiesta
+            const fiestaSection = document.getElementById('fiestaSection');
+            const fiestaListContainer = document.getElementById('fiestaListContainer');
+            if (fiestaList.length > 0) {
+                fiestaSection.classList.remove('hidden');
+                fiestaListContainer.innerHTML = '';
+                fiestaList.forEach((fName, idx) => {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'flex items-center justify-between p-2.5 rounded-xl bg-black/50 border border-magenta-800/50';
+                    rowDiv.innerHTML = `
+                        <span class="text-white font-bold">🕺 ${fName}</span>
+                        <select id="fiestaAttend_${idx}" class="px-3 py-1.5 rounded-lg bg-[#1f060f] border border-magenta-700/60 text-neon-magenta text-xs focus:outline-none focus:border-neon-magenta font-bold">
+                            <option value="SI">Asiste a la Fiesta ✅</option>
+                            <option value="NO">No Asiste ❌</option>
+                        </select>
+                    `;
+                    fiestaListContainer.appendChild(rowDiv);
+                });
+            } else {
+                fiestaSection.classList.add('hidden');
+            }
+
+            const greetingEl = document.getElementById('guestGreeting');
+            const verboSpan = document.getElementById('verboUnion');
+            const labelMsg = document.querySelector('#messageSection label');
+
+            let tratoUpper = trato ? decodeURIComponent(trato).trim().toUpperCase() : '';
+            const tratosFemeninos = ['HERMANA', 'PRIMA', 'TIA', 'TÍA', 'ABUELITA', 'AMIGA', 'MAMA', 'MAMÁ', 'MADRE', 'SOBRINA', 'CRA', 'REINA', 'BEBE', 'AMADA'];
+            let isFemale = tratosFemeninos.includes(tratoUpper);
+
+            if (grupo) {
+                guestFullName = decodeURIComponent(grupo).toUpperCase();
+                storageKey = "rsvp_" + guestFullName.replace(/\s+/g, '_');
+                if (greetingEl) greetingEl.innerHTML = `¡FAMILIA ${guestFullName}!<br>ESTÁN INVITADOS AL RITUAL DE UNIÓN DE`;
+                if (verboSpan) verboSpan.textContent = "SEAN";
+                if (labelMsg) labelMsg.textContent = "¿Quieren dejarle un mensaje a los novios?";
+                document.getElementById('guestBadge').textContent = `Grupo Familiar: ${guestFullName}`;
+                document.getElementById('attendanceOption').innerHTML = `
+                    <option value="ambos">¡Sí, asistirá todo el grupo familiar!</option>
+                    <option value="ninguno">Lo siento, no podremos asistir</option>
+                `;
+            } else if (invitado) {
+                guestFullName = decodeURIComponent(invitado).toUpperCase();
+                storageKey = "rsvp_" + guestFullName.replace(/\s+/g, '_');
+
+                if (acompanante && acompanante.toLowerCase() !== 'nan' && acompanante.trim() !== '') {
+                    guestCompanion = decodeURIComponent(acompanante).toUpperCase();
+                    hasCompanion = true;
+                }
+
+                if (hasCompanion) {
+                    if (greetingEl) {
+                        let prefijo = tratoUpper && tratoUpper !== 'NAN' ? tratoUpper : 'ESTIMADOS';
+                        greetingEl.innerHTML = `¡${prefijo} ${guestFullName} Y ${guestCompanion}!<br>ESTÁN INVITADOS AL RITUAL DE UNIÓN DE`;
+                    }
+                    if (verboSpan) verboSpan.textContent = "SEAN";
+                    if (labelMsg) labelMsg.textContent = "¿Quieren dejarle un mensaje a los novios?";
+
+                    let badgeText = `Invitados: ${guestFullName} + ${guestCompanion}`;
+                    if (kidsList.length > 0) badgeText += ` (Cena: ${kidsList.join(', ')})`;
+                    if (fiestaList.length > 0) badgeText += ` (Fiesta: ${fiestaList.join(', ')})`;
+                    document.getElementById('guestBadge').textContent = badgeText;
+
+                    document.getElementById('attendanceOption').innerHTML = `
+                        <option value="ambos">¡Sí, asistiremos ambos a la cena!</option>
+                        <option value="solo1">Solo asistirá ${guestFullName} a la cena</option>
+                        <option value="solo2">Solo asistirá ${guestCompanion} a la cena</option>
+                        <option value="ninguno">Lo siento, ninguno podrá asistir</option>
+                    `;
+                } else {
+                    let participio = isFemale ? 'ESTÁS INVITADA' : 'ESTÁS INVITADO';
+                    let prefijo = tratoUpper && tratoUpper !== 'NAN' ? tratoUpper : (isFemale ? 'ESTIMADA' : 'ESTIMADO');
+                    if (greetingEl) {
+                        greetingEl.innerHTML = `¡${prefijo} ${guestFullName}!<br>${participio} AL RITUAL DE UNIÓN DE`;
+                    }
+                    if (verboSpan) verboSpan.textContent = "SEAS";
+                    if (labelMsg) labelMsg.textContent = "¿Quieres dejarle un mensaje a los novios?";
+
+                    let labelTipo = isFemale ? 'Invitada' : 'Invitado';
+                    let badgeText = `${labelTipo}: ${guestFullName}`;
+                    if (kidsList.length > 0) badgeText += ` (Cena: ${kidsList.join(', ')})`;
+                    if (fiestaList.length > 0) badgeText += ` (Fiesta: ${fiestaList.join(', ')})`;
+                    document.getElementById('guestBadge').textContent = badgeText;
+
+                    document.getElementById('attendanceOption').innerHTML = `
+                        <option value="ambos">¡Sí, asistiré a la cena!</option>
+                        <option value="ninguno">Lo siento, no podré asistir</option>
+                    `;
+                }
+            } else {
+                guestFullName = "INVITADO GENERAL";
+                storageKey = "rsvp_general";
+                if (greetingEl) greetingEl.innerHTML = `ESTÁS INVITADO AL RITUAL DE UNIÓN DE`;
+                if (verboSpan) verboSpan.textContent = "SEAS";
+                if (labelMsg) labelMsg.textContent = "¿Quieres dejarle un mensaje a los novios?";
+                document.getElementById('guestBadge').textContent = "Invitación General";
+                document.getElementById('attendanceOption').innerHTML = `
+                    <option value="ambos">¡Sí, asistiré!</option>
+                    <option value="ninguno">No podré asistir</option>
+                `;
+            }
+
+            toggleAttendanceFields();
+
+            const savedResponse = localStorage.getItem(storageKey);
+            if (savedResponse) {
+                const data = JSON.parse(savedResponse);
+                mostrarTicket(data.finalNameStr, data.asistenciaTexto, data.willAttend, data.extraInfo);
+            }
+        });
+
+        function toggleAttendanceFields() {
+            const optionVal = document.getElementById('attendanceOption').value;
+            const conditionalFields = document.getElementById('conditionalFields');
+            const messageSection = document.getElementById('messageSection');
+            const foodPrefSelect = document.getElementById('foodPreference');
+            const guestMessageText = document.getElementById('guestMessage');
+
+            if (optionVal === 'ninguno') {
+                conditionalFields.classList.add('hidden');
+                messageSection.classList.remove('hidden');
+                foodPrefSelect.removeAttribute('required');
+            } else {
+                conditionalFields.classList.remove('hidden');
+                messageSection.classList.add('hidden');
+                foodPrefSelect.setAttribute('required', 'true');
+                guestMessageText.value = '';
+            }
+        }
+
+        // Partículas Neón
+        const canvas = document.getElementById('forestCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3.5 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.4;
+                this.speedY = (Math.random() - 0.5) * 0.4 - 0.2;
+                this.alpha = Math.random() * 0.85 + 0.2;
+                const colors = ['#00f3ff', '#39ff14', '#ff007f', '#ff5e00', '#b026ff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.shadowBlur = 18;
+                ctx.shadowColor = this.color;
+                ctx.fillStyle = this.color;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 110; i++) particles.push(new Particle());
+
+        function animateCanvas() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateCanvas);
+        }
+        animateCanvas();
+
+        // Cuenta Regresiva
+        const targetDate = new Date('2027-01-16T16:00:00').getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff > 0) {
+                document.getElementById('cd-days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
+                document.getElementById('cd-hours').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
+                document.getElementById('cd-minutes').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+                document.getElementById('cd-seconds').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
+            }
+        }, 1000);
+
+        async function handleRSVPSubmit(e) {
+            e.preventDefault();
+            const optionVal = document.getElementById('attendanceOption').value;
+            let asistenciaTexto = "";
+            let finalNameStr = guestFullName;
+            let willAttend = false;
+            let extraInfo = "";
+
+            const grupo = new URLSearchParams(window.location.search).get('grupo');
+
+            if (grupo) {
+                if (optionVal === "ambos") {
+                    asistenciaTexto = "SÍ ASISTE GRUPO FAMILIAR";
+                    finalNameStr = `FAMILIA ${guestFullName}`;
+                    willAttend = true;
+                } else {
+                    asistenciaTexto = "NO ASISTE GRUPO FAMILIAR";
+                    finalNameStr = `FAMILIA ${guestFullName}`;
+                    willAttend = false;
+                }
+            } else if (hasCompanion) {
+                if (optionVal === "ambos") {
+                    asistenciaTexto = "SÍ ASISTEN AMBOS";
+                    finalNameStr += ` y ${guestCompanion}`;
+                    willAttend = true;
+                } else if (optionVal === "solo1") {
+                    asistenciaTexto = `ASISTE SOLO ${guestFullName} (baja ${guestCompanion})`;
+                    finalNameStr += ` (Solo)`;
+                    willAttend = true;
+                } else if (optionVal === "solo2") {
+                    asistenciaTexto = `ASISTE SOLO ${guestCompanion} (baja ${guestFullName})`;
+                    finalNameStr += ` (${guestCompanion} Solo)`;
+                    willAttend = true;
+                } else {
+                    asistenciaTexto = "NO ASISTEN";
+                    finalNameStr += ` y ${guestCompanion}`;
+                    willAttend = false;
+                }
+            } else {
+                if (optionVal === "ambos") {
+                    asistenciaTexto = "SÍ ASISTE";
+                    willAttend = true;
+                } else {
+                    asistenciaTexto = "NO ASISTE";
+                    willAttend = false;
+                }
+            }
+
+            if (willAttend) {
+                const foodPref = document.getElementById('foodPreference').value;
+                const guestAlergies = document.getElementById('guestAlergies').value.trim() || "Ninguna";
+                
+                // Hijos Pequeños (Asisten automáticamente a todo el evento)
+                let kidsDetails = [];
+                kidsList.forEach((kName) => {
+                    kidsDetails.push(`${kName}: Sí`);
+                });
+
+                // Hijos Fiesta
+                let fiestaDetails = [];
+                fiestaList.forEach((fName, idx) => {
+                    const sel = document.getElementById(`fiestaAttend_${idx}`);
+                    fiestaDetails.push(`${fName}: ${sel && sel.value === 'SI' ? 'Sí' : 'No'}`);
+                });
+
+                extraInfo = `Comida: ${foodPref} | Alergias: ${guestAlergies}`;
+                if (kidsDetails.length > 0) extraInfo += ` | Hijos Cena: [${kidsDetails.join(', ')}]`;
+                if (fiestaDetails.length > 0) extraInfo += ` | Fiesta (23:00): [${fiestaDetails.join(', ')}]`;
+            } else {
+                const guestMessage = document.getElementById('guestMessage').value.trim() || "Sin mensaje";
+                extraInfo = `Mensaje: ${guestMessage}`;
+            }
+
+            localStorage.setItem(storageKey, JSON.stringify({ finalNameStr, asistenciaTexto, willAttend, extraInfo }));
+
+            const sheetDbUrl = "https://sheetdb.io/api/v1/qdxx5imf2dt3i"; 
+
+            try {
+                await fetch(sheetDbUrl, {
+                    method: 'POST',
+                    headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        data: [{
+                            'NOMBRE': finalNameStr,
+                            'ASISTENCIA': asistenciaTexto,
+                            'FECHA': new Date().toLocaleString(),
+                            'PREGUNTA': extraInfo
+                        }]
+                    })
+                });
+            } catch (error) {
+                console.error("Error al enviar a Google Sheets:", error);
+            }
+
+            mostrarTicket(finalNameStr, asistenciaTexto, willAttend, extraInfo);
+        }
+
+        function mostrarTicket(finalNameStr, asistenciaTexto, willAttend, extraInfo) {
+            document.getElementById('rsvpForm').classList.add('hidden');
+            document.getElementById('ticketResult').classList.remove('hidden');
+            document.getElementById('ticketGuestName').textContent = finalNameStr;
+
+            const ticketTitle = document.getElementById('ticketTitle');
+            const qrSection = document.getElementById('qrSection');
+            const noAttendanceMsg = document.getElementById('noAttendanceMsg');
+
+            const isPlural = hasCompanion || new URLSearchParams(window.location.search).get('grupo');
+            const tratoParam = new URLSearchParams(window.location.search).get('trato');
+            const tratosFemeninos = ['HERMANA', 'PRIMA', 'TIA', 'TÍA', 'ABUELITA', 'AMIGA', 'MAMA', 'MAMÁ', 'MADRE', 'SOBRINA', 'CRA', 'REINA', 'BEBE', 'AMADA'];
+            const isFem = tratoParam && tratosFemeninos.includes(decodeURIComponent(tratoParam).trim().toUpperCase());
+            const etiquetaInvitado = isPlural ? "Invitados" : (isFem ? "Invitada" : "Invitado");
+
+            if (willAttend) {
+                ticketTitle.textContent = "¡Asistencia Registrada!";
+                qrSection.style.display = "flex";
+                noAttendanceMsg.style.display = "none";
+                
+                let qrTextoMensaje = "C&E '27 - TICKET DE ACCESO\n" +
+                                     "--------------------------------\n" +
+                                     etiquetaInvitado + ": " + finalNameStr + "\n" +
+                                     "Estado: " + asistenciaTexto + "\n" +
+                                     "Detalles: " + extraInfo + "\n" +
+                                     "Fecha: 16 Ene 2027\n" +
+                                     "Lugar: Chanco (Sector Los Peumos)\n\n" +
+                                     "Próximamente te enviaremos mayor información.\n\n" +
+                                     "Cariños,\n" +
+                                     "Cata & Ernesto";
+                
+                const qrData = encodeURIComponent(qrTextoMensaje);
+                document.getElementById('qrImage').src = `https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${qrData}`;
+            } else {
+                ticketTitle.textContent = "¡Respuesta Registrada!";
+                qrSection.style.display = "none";
+                noAttendanceMsg.style.display = "block";
+
+                const msgTextEl = noAttendanceMsg.querySelector('p');
+                if (msgTextEl) {
+                    if (isPlural) {
+                        msgTextEl.textContent = "Agradecemos enormemente que se hayan tomado el tiempo de contestar. Lamentamos que no nos puedan acompañar 😔 ¡Les enviamos un abrazo gigante!";
+                    } else {
+                        msgTextEl.textContent = "Agradecemos enormemente que te hayas tomado el tiempo de contestar. Lamentamos que no nos puedas acompañar 😔 ¡Te enviamos un abrazo gigante!";
+                    }
+                }
+                
+                const previewContainer = document.getElementById('messagePreviewContainer');
+                const displayMsg = document.getElementById('displayGuestMessage');
+                
+                if (extraInfo.startsWith("Mensaje: ") && extraInfo !== "Mensaje: Sin mensaje") {
+                    displayMsg.textContent = `"${extraInfo.replace("Mensaje: ", "")}"`;
+                    previewContainer.style.display = "block";
+                } else {
+                    previewContainer.style.display = "none";
+                }
+            }
+        }
+
+        function editResponse() {
+            localStorage.removeItem(storageKey);
+            document.getElementById('ticketResult').classList.add('hidden');
+            document.getElementById('rsvpForm').classList.remove('hidden');
+            toggleAttendanceFields();
+        }
+    </script>
+</body>
+</html>
