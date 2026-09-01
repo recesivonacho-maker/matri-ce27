@@ -515,13 +515,13 @@
 
         audioEl.volume = volumeSlider.value;
 
-        function setupAudioContext() {
+                function setupAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
                 analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 128; // Mayor resolución de muestreo
-                analyser.smoothingTimeConstant = 0.82;
+                analyser.fftSize = 256; // 128 bins para mayor detalle espectral
+                analyser.smoothingTimeConstant = 0.78; // Respuesta ágil y dinámica
                 source = audioCtx.createMediaElementSource(audioEl);
                 source.connect(analyser);
                 analyser.connect(audioCtx.destination);
@@ -529,27 +529,36 @@
             }
         }
 
+        const barHeights = new Array(16).fill(4);
+
         function renderVuMeter() {
             if (isPlaying && analyser) {
                 requestAnimationFrame(renderVuMeter);
                 analyser.getByteFrequencyData(dataArray);
 
-                // Mapeo logarítmico con curva de ganancia para agudos y dinámica en graves
-                const gains = [0.85, 0.9, 0.95, 1.0, 1.1, 1.2, 1.35, 1.5, 1.7, 1.9, 2.2, 2.5, 2.8, 3.2, 3.6, 4.0];
-                const binIndices = [1, 2, 3, 4, 6, 8, 10, 13, 16, 20, 24, 28, 33, 38, 44, 50];
+                // Mapeo musical balanceado (sub, graves, medios, brillos)
+                const binIndices = [1, 2, 3, 5, 8, 12, 17, 23, 30, 38, 48, 59, 72, 86, 101, 118];
+                const gains = [1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6, 1.65, 1.7, 1.75];
 
                 vuBars.forEach((bar, i) => {
-                    const bin = binIndices[i] || i;
-                    let rawVal = dataArray[bin] || 0;
-                    let boosted = rawVal * gains[i];
-                    let normalized = Math.min(255, boosted);
-                    
-                    // Altura orgánica de 4px a 26px
-                    const height = Math.max(4, Math.floor((normalized / 255) * 22) + 4);
-                    bar.style.height = height + 'px';
+                    const bin = binIndices[i];
+                    let val = (dataArray[bin] || 0) * gains[i];
+                    let targetHeight = Math.max(4, Math.min(26, Math.floor((val / 255) * 22) + 4));
+
+                    // Caída suave estilo DJ mixer Pioneer
+                    if (targetHeight > barHeights[i]) {
+                        barHeights[i] = targetHeight;
+                    } else {
+                        barHeights[i] = Math.max(4, barHeights[i] - 1.2);
+                    }
+
+                    bar.style.height = barHeights[i].toFixed(1) + 'px';
                 });
             } else {
-                vuBars.forEach(bar => { bar.style.height = '4px'; });
+                vuBars.forEach((bar, i) => {
+                    barHeights[i] = 4;
+                    bar.style.height = '4px';
+                });
             }
         }
 
