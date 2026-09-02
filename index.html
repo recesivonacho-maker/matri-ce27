@@ -285,7 +285,7 @@
                         <i data-lucide="calendar" class="w-4 h-4 sm:w-6 sm:h-6 text-neon-orange shrink-0 mt-0.5 sm:mt-0"></i>
                         <div class="text-left font-mono-code">
                             <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Fecha del Evento</div>
-                            <div class="text-xs sm:text-base font-bold text-white glow-hover-orange leading-tight sm:leading-normal">Sábado, 16 de Enero 2027</div>
+                            <div class="text-xs sm:base font-bold text-white glow-hover-orange leading-tight sm:leading-normal">Sábado, 16 de Enero 2027</div>
                         </div>
                     </div>
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Catalina+%26+Ernesto&dates=20270116T160000Z/20270117T060000Z&details=Ritual+de+uni%C3%B3n+y+fiesta+C%26E+%2727&location=Chanco%2C+Regi%C3%B3n+del+Maule+%28Sector+Los+Peumos%29" target="_blank" rel="noopener" class="mt-1 w-full py-1.5 px-1.5 sm:px-3 rounded-xl bg-neon-orange/20 border border-neon-orange/50 text-neon-orange font-mono-code text-[10px] sm:text-xs text-center uppercase tracking-tight sm:tracking-wider hover:bg-neon-orange hover:text-black transition-all block">
@@ -384,14 +384,10 @@
                                 <div id="fiestaListContainer" class="space-y-3 text-left font-mono-code text-xs"></div>
                             </div>
 
-                            <!-- Preferencias Alimentarias -->
-                            <div id="foodSection">
-                                <label class="block text-xs font-mono-code text-neon-orange uppercase mb-2 text-center">Preferencias Alimentarias *</label>
-                                <select id="foodPreference" class="w-full px-4 py-3.5 rounded-xl bg-[#1f060f] border border-orange-700/60 text-white text-sm focus:outline-none focus:border-neon-orange font-bold text-center transition-all">
-                                    <option value="Normal">Normal (Sin restricciones)</option>
-                                    <option value="Vegetariana">Vegetariana</option>
-                                    <option value="Vegana">Vegana</option>
-                                </select>
+                            <!-- Preferencias Alimentarias Individuales -->
+                            <div id="foodSection" class="space-y-3 text-left">
+                                <label class="block text-xs font-mono-code text-neon-orange uppercase text-center mb-1 font-bold">Preferencia de Menú por Persona *</label>
+                                <div id="foodSelectorsContainer" class="space-y-3"></div>
                             </div>
 
                             <!-- Alergias -->
@@ -448,10 +444,13 @@
             </div>
         </section>
 
-        <footer class="neon-dark-texture max-w-4xl mx-auto text-center py-12 border-t border-orange-900/40 px-4 mt-16 rounded-3xl w-full">
-            <h4 class="text-2xl font-display font-extrabold text-white uppercase text-center">
-                <span class="glow-hover-orange inline-block">CATALINA</span> & <span class="glow-hover-green inline-block">ERNESTO</span>
+        <footer class="w-full text-center py-10 mt-6 pb-16">
+            <h4 class="text-xl font-display font-bold uppercase text-center tracking-wider text-white/90">
+                <span class="glow-hover-orange inline-block">CATALINA</span> <span class="text-neon-cyan px-1">&</span> <span class="glow-hover-green inline-block">ERNESTO</span>
             </h4>
+            <p class="text-[10px] font-mono-code text-orange-400/60 uppercase tracking-widest mt-2">
+                16 · 01 · 2027 — Chanco, Chile
+            </p>
         </footer>
     </main>
 
@@ -513,7 +512,7 @@
 
         audioEl.volume = volumeSlider.value;
 
-                        function setupAudioContext() {
+        function setupAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
@@ -735,22 +734,63 @@
             }
         });
 
+        let currentDinnerAttendees = [];
+
         function toggleAttendanceFields() {
             const optionVal = document.getElementById('attendanceOption').value;
             const conditionalFields = document.getElementById('conditionalFields');
             const messageSection = document.getElementById('messageSection');
-            const foodPrefSelect = document.getElementById('foodPreference');
             const guestMessageText = document.getElementById('guestMessage');
+            const container = document.getElementById('foodSelectorsContainer');
 
             if (optionVal === 'ninguno') {
                 conditionalFields.classList.add('hidden');
                 messageSection.classList.remove('hidden');
-                foodPrefSelect.removeAttribute('required');
             } else {
                 conditionalFields.classList.remove('hidden');
                 messageSection.classList.add('hidden');
-                foodPrefSelect.setAttribute('required', 'true');
                 guestMessageText.value = '';
+
+                // Calcular asistentes reales a la cena
+                currentDinnerAttendees = [];
+                const grupo = new URLSearchParams(window.location.search).get('grupo');
+
+                if (grupo) {
+                    currentDinnerAttendees.push(`FAMILIA ${guestFullName}`);
+                } else if (hasCompanion) {
+                    if (optionVal === 'ambos') {
+                        currentDinnerAttendees.push(guestFullName, guestCompanion);
+                    } else if (optionVal === 'solo1') {
+                        currentDinnerAttendees.push(guestFullName);
+                    } else if (optionVal === 'solo2') {
+                        currentDinnerAttendees.push(guestCompanion);
+                    }
+                } else {
+                    currentDinnerAttendees.push(guestFullName);
+                }
+
+                // Sumar niños de cena si los hay
+                if (kidsList.length > 0) {
+                    kidsList.forEach(k => currentDinnerAttendees.push(`${k} (Hijo/a)`));
+                }
+
+                // Generar selector individual por persona
+                container.innerHTML = '';
+                currentDinnerAttendees.forEach((person, idx) => {
+                    const row = document.createElement('div');
+                    row.className = 'p-3 rounded-xl bg-black/50 border border-orange-800/50 space-y-1.5';
+                    row.innerHTML = `
+                        <label class="block text-xs font-mono-code text-orange-200 uppercase font-bold">
+                            🍽️ Menú para ${person}:
+                        </label>
+                        <select id="foodPref_${idx}" class="w-full px-3 py-2.5 rounded-lg bg-[#1f060f] border border-orange-700/60 text-white text-xs focus:outline-none focus:border-neon-orange font-bold">
+                            <option value="Normal">Normal (Sin restricciones)</option>
+                            <option value="Vegetariana">Vegetariana</option>
+                            <option value="Vegana">Vegana</option>
+                        </select>
+                    `;
+                    container.appendChild(row);
+                });
             }
         }
 
@@ -867,7 +907,13 @@
             }
 
             if (willAttend) {
-                const foodPref = document.getElementById('foodPreference').value;
+                let menuList = [];
+                currentDinnerAttendees.forEach((person, idx) => {
+                    const sel = document.getElementById(`foodPref_${idx}`);
+                    const val = sel ? sel.value : 'Normal';
+                    menuList.push(`${person}: ${val}`);
+                });
+                const foodSummary = menuList.join(', ');
                 const guestAlergies = document.getElementById('guestAlergies').value.trim() || "Ninguna";
                 
                 // Hijos Pequeños (Asisten automáticamente a todo el evento)
@@ -883,7 +929,7 @@
                     fiestaDetails.push(`${fName}: ${sel && sel.value === 'SI' ? 'Sí' : 'No'}`);
                 });
 
-                extraInfo = `Comida: ${foodPref} | Alergias: ${guestAlergies}`;
+                extraInfo = `Menú: [${foodSummary}] | Alergias: ${guestAlergies}`;
                 if (kidsDetails.length > 0) extraInfo += ` | Hijos Cena: [${kidsDetails.join(', ')}]`;
                 if (fiestaDetails.length > 0) extraInfo += ` | Fiesta (23:00): [${fiestaDetails.join(', ')}]`;
             } else {
