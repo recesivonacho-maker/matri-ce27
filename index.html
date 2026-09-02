@@ -448,13 +448,10 @@
             </div>
         </section>
 
-        <footer class="w-full text-center py-10 mt-6 pb-16">
-            <h4 class="text-xl font-display font-bold uppercase text-center tracking-wider text-white/90">
-                <span class="glow-hover-orange inline-block">CATALINA</span> <span class="text-neon-cyan px-1">&</span> <span class="glow-hover-green inline-block">ERNESTO</span>
+        <footer class="neon-dark-texture max-w-4xl mx-auto text-center py-12 border-t border-orange-900/40 px-4 mt-16 rounded-3xl w-full">
+            <h4 class="text-2xl font-display font-extrabold text-white uppercase text-center">
+                <span class="glow-hover-orange inline-block">CATALINA</span> & <span class="glow-hover-green inline-block">ERNESTO</span>
             </h4>
-            <p class="text-[10px] font-mono-code text-orange-400/60 uppercase tracking-widest mt-2">
-                16 · 01 · 2027 — Chanco, Chile
-            </p>
         </footer>
     </main>
 
@@ -516,7 +513,7 @@
 
         audioEl.volume = volumeSlider.value;
 
-        function setupAudioContext() {
+                        function setupAudioContext() {
             if (!audioCtx) {
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
@@ -896,7 +893,7 @@
 
             localStorage.setItem(storageKey, JSON.stringify({ finalNameStr, asistenciaTexto, willAttend, extraInfo }));
 
-            const sheetDbUrl = "https://sheetdb.io/api/v1/qdxx5imf2dt3i"; 
+            const sheetDbUrl = "https://sheetdb.io/api/v1/zbh0u6dfsjruv?sheet=Respuestas_Web"; 
 
             try {
                 await fetch(sheetDbUrl, {
