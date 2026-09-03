@@ -285,7 +285,7 @@
                         <i data-lucide="calendar" class="w-4 h-4 sm:w-6 sm:h-6 text-neon-orange shrink-0 mt-0.5 sm:mt-0"></i>
                         <div class="text-left font-mono-code">
                             <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Fecha del Evento</div>
-                            <div class="text-xs sm:base font-bold text-white glow-hover-orange leading-tight sm:leading-normal">Sábado, 16 de Enero 2027</div>
+                            <div class="text-xs sm:text-base font-bold text-white glow-hover-orange leading-tight sm:leading-normal">Sábado, 16 de Enero 2027</div>
                         </div>
                     </div>
                     <a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=Boda+Catalina+%26+Ernesto&dates=20270116T160000Z/20270117T060000Z&details=Ritual+de+uni%C3%B3n+y+fiesta+C%26E+%2727&location=Chanco%2C+Regi%C3%B3n+del+Maule+%28Sector+Los+Peumos%29" target="_blank" rel="noopener" class="mt-1 w-full py-1.5 px-1.5 sm:px-3 rounded-xl bg-neon-orange/20 border border-neon-orange/50 text-neon-orange font-mono-code text-[10px] sm:text-xs text-center uppercase tracking-tight sm:tracking-wider hover:bg-neon-orange hover:text-black transition-all block">
@@ -297,8 +297,8 @@
                     <div class="flex items-start sm:items-center gap-2 sm:gap-3">
                         <i data-lucide="map-pin" class="w-4 h-4 sm:w-6 sm:h-6 text-neon-cyan shrink-0 mt-0.5 sm:mt-0"></i>
                         <div class="text-left font-mono-code">
-                            <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Ubicación Mística</div>
-                            <div class="text-xs sm:text-sm font-bold text-white glow-hover-cyan leading-tight sm:leading-normal">Chanco, Maule <span class="text-[10px] sm:text-xs text-gray-300 block sm:inline">(Los Peumos)</span></div>
+                            <div class="text-[9px] sm:text-xs text-gray-400 uppercase tracking-tight">Ubicación</div>
+                            <div class="text-xs sm:text-sm font-bold text-white glow-hover-cyan leading-tight sm:leading-normal">Chanco, Región del Maule <span class="text-[10px] sm:text-xs text-gray-300 block sm:inline">(Sector Los Peumos)</span></div>
                         </div>
                     </div>
                     <a href="https://maps.app.goo.gl/kNDtUamw8jJJ6XBs8" target="_blank" rel="noopener" class="mt-1 w-full py-1.5 px-1.5 sm:px-3 rounded-xl bg-neon-orange/20 border border-neon-orange/50 text-neon-orange font-mono-code text-[10px] sm:text-xs text-center uppercase tracking-tight sm:tracking-wider hover:bg-neon-orange hover:text-black transition-all block">
@@ -359,12 +359,13 @@
 
                     <form id="rsvpForm" onsubmit="handleRSVPSubmit(event)" class="space-y-6 max-w-md mx-auto text-center w-full">
                         <div>
-                            <label class="block text-xs font-mono-code text-neon-orange uppercase mb-2 text-center">Selecciona tu opción de asistencia *</label>
+                            <label class="block text-xs font-mono-code text-neon-orange uppercase mb-2 text-center">Selecciona tu opción *</label>
                             <select id="attendanceOption" required onchange="toggleAttendanceFields()" class="w-full px-4 py-3.5 rounded-xl bg-[#1f060f] border border-orange-700/60 text-white text-sm focus:outline-none focus:border-neon-orange font-bold text-center transition-all">
+                                <option value="" disabled selected>-- Selecciona una opción --</option>
                             </select>
                         </div>
                         
-                        <div id="conditionalFields" class="space-y-6">
+                        <div id="conditionalFields" class="hidden space-y-6">
                             
                             <!-- MENCIÓN HIJOS PEQUEÑOS -->
                             <div id="kidsSection" class="hidden p-3.5 rounded-2xl bg-orange-950/30 border border-neon-orange/40 text-center">
@@ -386,13 +387,13 @@
 
                             <!-- Preferencias Alimentarias Individuales -->
                             <div id="foodSection" class="space-y-3 text-left">
-                                <label class="block text-xs font-mono-code text-neon-orange uppercase text-center mb-1 font-bold">Preferencia de Menú por Persona *</label>
+                                <label class="block text-xs font-mono-code text-neon-orange uppercase text-center mb-1 font-bold">Preferencia alimentaria</label>
                                 <div id="foodSelectorsContainer" class="space-y-3"></div>
                             </div>
 
-                            <!-- Alergias -->
+                            <!-- Alergias y Restricciones -->
                             <div id="alergiesSection">
-                                <label class="block text-xs font-mono-code text-neon-cyan uppercase mb-2 text-center">¿Tienes alguna alergia o restricción alimentaria? (Opcional)</label>
+                                <label class="block text-xs font-mono-code text-neon-cyan uppercase mb-2 text-center">¿Tienes alguna restricción alimentaria o alergia que debamos tener en cuenta? (Opcional)</label>
                                 <textarea id="guestAlergies" rows="2" placeholder="Ej: Celíaco, alérgico a los mariscos, frutos secos, etc..." class="w-full px-4 py-3 rounded-xl bg-[#1f060f] border border-cyan-700/60 text-white text-sm focus:outline-none focus:border-neon-cyan text-center transition-all"></textarea>
                             </div>
                         </div>
@@ -403,7 +404,7 @@
                             <textarea id="guestMessage" rows="3" placeholder="Escribe un mensaje cariñoso para Catalina y Ernesto..." class="w-full px-4 py-3 rounded-xl bg-[#1f060f] border border-magenta-700/60 text-white text-sm focus:outline-none focus:border-neon-magenta text-center transition-all"></textarea>
                         </div>
 
-                        <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-neon-orange via-neon-magenta to-neon-cyan text-black font-extrabold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(255,94,0,0.6)] hover:scale-[1.02] transition-all">
+                        <button id="submitBtn" type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-neon-orange via-neon-magenta to-neon-cyan text-black font-extrabold text-base uppercase tracking-wider shadow-[0_0_20px_rgba(255,94,0,0.6)] hover:scale-[1.02] transition-all">
                             Enviar Confirmación
                         </button>
                     </form>
@@ -468,26 +469,16 @@
         const isTouchDevice = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         
         if (isTouchDevice) {
-            // En Celular: Glow dinámico por Scroll al centro de pantalla
             const glowElements = document.querySelectorAll('.scroll-glow-item, .glow-hover-orange, .glow-hover-cyan, .glow-hover-green, .glow-hover-magenta');
-            const observerOptions = {
-                root: null,
-                rootMargin: '-10% 0px -10% 0px',
-                threshold: 0.15
-            };
+            const observerOptions = { root: null, rootMargin: '-10% 0px -10% 0px', threshold: 0.15 };
             const scrollObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    } else {
-                        entry.target.classList.remove('active');
-                    }
+                    if (entry.isIntersecting) entry.target.classList.add('active');
+                    else entry.target.classList.remove('active');
                 });
             }, observerOptions);
-
             glowElements.forEach(el => scrollObserver.observe(el));
         } else {
-            // En PC: Hover reactivo al 100% sin interferencias de scroll
             const cards = document.querySelectorAll('.scroll-glow-item');
             const cardObserver = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
@@ -517,10 +508,10 @@
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 audioCtx = new AudioContext();
                 analyser = audioCtx.createAnalyser();
-                analyser.fftSize = 512; // 256 bandas de análisis para máxima definición espectral
+                analyser.fftSize = 512;
                 analyser.minDecibels = -85;
                 analyser.maxDecibels = -15;
-                analyser.smoothingTimeConstant = 0.65; // Caída rápida y reactiva
+                analyser.smoothingTimeConstant = 0.65;
                 source = audioCtx.createMediaElementSource(audioEl);
                 source.connect(analyser);
                 analyser.connect(audioCtx.destination);
@@ -535,7 +526,6 @@
                 requestAnimationFrame(renderVuMeter);
                 analyser.getByteFrequencyData(dataArray);
 
-                // Índices distribuidos musicalmente (sub-graves a agudos finos)
                 const binIndices = [2, 4, 7, 11, 16, 23, 32, 43, 56, 72, 90, 112, 138, 168, 202, 240];
                 const gains = [0.95, 0.95, 0.95, 1.0, 1.05, 1.1, 1.15, 1.2, 1.25, 1.3, 1.35, 1.4, 1.45, 1.5, 1.55, 1.6];
 
@@ -543,16 +533,11 @@
                     const bin = binIndices[i] || i;
                     let raw = (dataArray[bin] || 0) * gains[i];
                     let normalized = Math.min(1.0, raw / 255.0);
-                    
-                    // Expansión dinámica exponencial (evita que se peguen arriba y da pegada real)
                     let curved = Math.pow(normalized, 1.75);
                     let targetHeight = Math.max(4, Math.min(26, Math.floor(curved * 22) + 4));
 
-                    if (targetHeight > barHeights[i]) {
-                        barHeights[i] = targetHeight;
-                    } else {
-                        barHeights[i] = Math.max(4, barHeights[i] - 1.8);
-                    }
+                    if (targetHeight > barHeights[i]) barHeights[i] = targetHeight;
+                    else barHeights[i] = Math.max(4, barHeights[i] - 1.8);
 
                     bar.style.height = barHeights[i].toFixed(1) + 'px';
                 });
@@ -587,6 +572,8 @@
 
         function adjustVolume(val) { audioEl.volume = val; }
 
+        let currentDinnerAttendees = [];
+
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
             const invitado = urlParams.get('invitado');
@@ -594,7 +581,7 @@
             const trato = urlParams.get('trato');
             const grupo = urlParams.get('grupo');
 
-            // 1. Hijos Cena (hijo1, hijo2)
+            // 1. Hijos Cena
             const h1 = urlParams.get('hijo1');
             const h2 = urlParams.get('hijo2');
             kidsList = [];
@@ -604,7 +591,7 @@
                 }
             });
 
-            // 2. Hijos Fiesta (fiesta1, fiesta2, fiesta3)
+            // 2. Hijos Fiesta
             const f1 = urlParams.get('fiesta1');
             const f2 = urlParams.get('fiesta2');
             const f3 = urlParams.get('fiesta3');
@@ -615,15 +602,10 @@
                 }
             });
 
-            // Renderizar Sección Hijos Pequeños
             const kidsSection = document.getElementById('kidsSection');
-            if (kidsList.length > 0) {
-                kidsSection.classList.remove('hidden');
-            } else {
-                kidsSection.classList.add('hidden');
-            }
+            if (kidsList.length > 0) kidsSection.classList.remove('hidden');
+            else kidsSection.classList.add('hidden');
 
-            // Renderizar Sección Hijos Fiesta
             const fiestaSection = document.getElementById('fiestaSection');
             const fiestaListContainer = document.getElementById('fiestaListContainer');
             if (fiestaList.length > 0) {
@@ -653,6 +635,8 @@
             const tratosFemeninos = ['HERMANA', 'PRIMA', 'TIA', 'TÍA', 'ABUELITA', 'AMIGA', 'MAMA', 'MAMÁ', 'MADRE', 'SOBRINA', 'CRA', 'REINA', 'BEBE', 'AMADA'];
             let isFemale = tratosFemeninos.includes(tratoUpper);
 
+            const attendanceSelect = document.getElementById('attendanceOption');
+
             if (grupo) {
                 guestFullName = decodeURIComponent(grupo).toUpperCase();
                 storageKey = "rsvp_" + guestFullName.replace(/\s+/g, '_');
@@ -660,9 +644,10 @@
                 if (verboSpan) verboSpan.textContent = "SEAN";
                 if (labelMsg) labelMsg.textContent = "¿Quieren dejarle un mensaje a los novios?";
                 document.getElementById('guestBadge').textContent = `Grupo Familiar: ${guestFullName}`;
-                document.getElementById('attendanceOption').innerHTML = `
+                attendanceSelect.innerHTML = `
+                    <option value="" disabled selected>-- Selecciona una opción --</option>
                     <option value="ambos">¡Sí, asistirá todo el grupo familiar!</option>
-                    <option value="ninguno">Lo siento, no podremos asistir</option>
+                    <option value="ninguno">Lamentablemente no podremos asistir</option>
                 `;
             } else if (invitado) {
                 guestFullName = decodeURIComponent(invitado).toUpperCase();
@@ -686,11 +671,12 @@
                     if (fiestaList.length > 0) badgeText += ` (Fiesta: ${fiestaList.join(', ')})`;
                     document.getElementById('guestBadge').textContent = badgeText;
 
-                    document.getElementById('attendanceOption').innerHTML = `
-                        <option value="ambos">¡Sí, asistiremos ambos a la cena!</option>
-                        <option value="solo1">Solo asistirá ${guestFullName} a la cena</option>
-                        <option value="solo2">Solo asistirá ${guestCompanion} a la cena</option>
-                        <option value="ninguno">Lo siento, ninguno podrá asistir</option>
+                    attendanceSelect.innerHTML = `
+                        <option value="" disabled selected>-- Selecciona una opción --</option>
+                        <option value="ambos">¡Sí, asistiremos ambos!</option>
+                        <option value="solo1">Solo asistirá ${guestFullName}</option>
+                        <option value="solo2">Solo asistirá ${guestCompanion}</option>
+                        <option value="ninguno">Lamentablemente ninguno podrá asistir</option>
                     `;
                 } else {
                     let participio = isFemale ? 'ESTÁS INVITADA' : 'ESTÁS INVITADO';
@@ -707,9 +693,10 @@
                     if (fiestaList.length > 0) badgeText += ` (Fiesta: ${fiestaList.join(', ')})`;
                     document.getElementById('guestBadge').textContent = badgeText;
 
-                    document.getElementById('attendanceOption').innerHTML = `
-                        <option value="ambos">¡Sí, asistiré a la cena!</option>
-                        <option value="ninguno">Lo siento, no podré asistir</option>
+                    attendanceSelect.innerHTML = `
+                        <option value="" disabled selected>-- Selecciona una opción --</option>
+                        <option value="ambos">¡Sí, asistiré!</option>
+                        <option value="ninguno">Lamentablemente no podré asistir</option>
                     `;
                 }
             } else {
@@ -719,9 +706,10 @@
                 if (verboSpan) verboSpan.textContent = "SEAS";
                 if (labelMsg) labelMsg.textContent = "¿Quieres dejarle un mensaje a los novios?";
                 document.getElementById('guestBadge').textContent = "Invitación General";
-                document.getElementById('attendanceOption').innerHTML = `
+                attendanceSelect.innerHTML = `
+                    <option value="" disabled selected>-- Selecciona una opción --</option>
                     <option value="ambos">¡Sí, asistiré!</option>
-                    <option value="ninguno">No podré asistir</option>
+                    <option value="ninguno">Lamentablemente no podré asistir</option>
                 `;
             }
 
@@ -734,8 +722,6 @@
             }
         });
 
-        let currentDinnerAttendees = [];
-
         function toggleAttendanceFields() {
             const optionVal = document.getElementById('attendanceOption').value;
             const conditionalFields = document.getElementById('conditionalFields');
@@ -743,7 +729,10 @@
             const guestMessageText = document.getElementById('guestMessage');
             const container = document.getElementById('foodSelectorsContainer');
 
-            if (optionVal === 'ninguno') {
+            if (!optionVal || optionVal === "") {
+                conditionalFields.classList.add('hidden');
+                messageSection.classList.add('hidden');
+            } else if (optionVal === 'ninguno') {
                 conditionalFields.classList.add('hidden');
                 messageSection.classList.remove('hidden');
             } else {
@@ -751,7 +740,6 @@
                 messageSection.classList.add('hidden');
                 guestMessageText.value = '';
 
-                // Calcular asistentes reales a la cena
                 currentDinnerAttendees = [];
                 const grupo = new URLSearchParams(window.location.search).get('grupo');
 
@@ -769,22 +757,20 @@
                     currentDinnerAttendees.push(guestFullName);
                 }
 
-                // Sumar niños de cena si los hay
                 if (kidsList.length > 0) {
                     kidsList.forEach(k => currentDinnerAttendees.push(`${k} (Hijo/a)`));
                 }
 
-                // Generar selector individual por persona
                 container.innerHTML = '';
                 currentDinnerAttendees.forEach((person, idx) => {
                     const row = document.createElement('div');
                     row.className = 'p-3 rounded-xl bg-black/50 border border-orange-800/50 space-y-1.5';
                     row.innerHTML = `
                         <label class="block text-xs font-mono-code text-orange-200 uppercase font-bold">
-                            🍽️ Menú para ${person}:
+                            🍽️ ${person}:
                         </label>
                         <select id="foodPref_${idx}" class="w-full px-3 py-2.5 rounded-lg bg-[#1f060f] border border-orange-700/60 text-white text-xs focus:outline-none focus:border-neon-orange font-bold">
-                            <option value="Normal">Normal (Sin restricciones)</option>
+                            <option value="Normal (sin restricciones)">Normal (sin restricciones)</option>
                             <option value="Vegetariana">Vegetariana</option>
                             <option value="Vegana">Vegana</option>
                         </select>
@@ -793,6 +779,31 @@
                 });
             }
         }
+
+        // Cuenta Regresiva Inmediata y Blindada (16 Ene 2027, 16:00 hrs)
+        function updateCountdown() {
+            const targetDate = new Date(2027, 0, 16, 16, 0, 0).getTime();
+            const now = new Date().getTime();
+            const diff = targetDate - now;
+            if (diff > 0) {
+                const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+                const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+                const elD = document.getElementById('cd-days');
+                const elH = document.getElementById('cd-hours');
+                const elM = document.getElementById('cd-minutes');
+                const elS = document.getElementById('cd-seconds');
+
+                if (elD) elD.textContent = String(d).padStart(2, '0');
+                if (elH) elH.textContent = String(h).padStart(2, '0');
+                if (elM) elM.textContent = String(m).padStart(2, '0');
+                if (elS) elS.textContent = String(s).padStart(2, '0');
+            }
+        }
+        updateCountdown();
+        setInterval(updateCountdown, 1000);
 
         // Partículas Neón
         const canvas = document.getElementById('forestCanvas');
@@ -845,22 +856,14 @@
         }
         animateCanvas();
 
-        // Cuenta Regresiva
-        const targetDate = new Date('2027-01-16T16:00:00').getTime();
-        setInterval(() => {
-            const now = new Date().getTime();
-            const diff = targetDate - now;
-            if (diff > 0) {
-                document.getElementById('cd-days').textContent = String(Math.floor(diff / (1000 * 60 * 60 * 24))).padStart(2, '0');
-                document.getElementById('cd-hours').textContent = String(Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60))).padStart(2, '0');
-                document.getElementById('cd-minutes').textContent = String(Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
-                document.getElementById('cd-seconds').textContent = String(Math.floor((diff % (1000 * 60)) / 1000)).padStart(2, '0');
-            }
-        }, 1000);
-
         async function handleRSVPSubmit(e) {
             e.preventDefault();
             const optionVal = document.getElementById('attendanceOption').value;
+            if (!optionVal || optionVal === "") {
+                alert("Por favor selecciona tu opción de asistencia.");
+                return;
+            }
+
             let asistenciaTexto = "";
             let finalNameStr = guestFullName;
             let willAttend = false;
@@ -910,26 +913,24 @@
                 let menuList = [];
                 currentDinnerAttendees.forEach((person, idx) => {
                     const sel = document.getElementById(`foodPref_${idx}`);
-                    const val = sel ? sel.value : 'Normal';
+                    const val = sel ? sel.value : 'Normal (sin restricciones)';
                     menuList.push(`${person}: ${val}`);
                 });
                 const foodSummary = menuList.join(', ');
                 const guestAlergies = document.getElementById('guestAlergies').value.trim() || "Ninguna";
                 
-                // Hijos Pequeños (Asisten automáticamente a todo el evento)
                 let kidsDetails = [];
                 kidsList.forEach((kName) => {
                     kidsDetails.push(`${kName}: Sí`);
                 });
 
-                // Hijos Fiesta
                 let fiestaDetails = [];
                 fiestaList.forEach((fName, idx) => {
                     const sel = document.getElementById(`fiestaAttend_${idx}`);
                     fiestaDetails.push(`${fName}: ${sel && sel.value === 'SI' ? 'Sí' : 'No'}`);
                 });
 
-                extraInfo = `Menú: [${foodSummary}] | Alergias: ${guestAlergies}`;
+                extraInfo = `Preferencia: [${foodSummary}] | Alergias/Restricciones: ${guestAlergies}`;
                 if (kidsDetails.length > 0) extraInfo += ` | Hijos Cena: [${kidsDetails.join(', ')}]`;
                 if (fiestaDetails.length > 0) extraInfo += ` | Fiesta (23:00): [${fiestaDetails.join(', ')}]`;
             } else {
@@ -987,7 +988,7 @@
                                      "Estado: " + asistenciaTexto + "\n" +
                                      "Detalles: " + extraInfo + "\n" +
                                      "Fecha: 16 Ene 2027\n" +
-                                     "Lugar: Chanco (Sector Los Peumos)\n\n" +
+                                     "Lugar: Chanco, Región del Maule (Sector Los Peumos)\n\n" +
                                      "Próximamente te enviaremos mayor información.\n\n" +
                                      "Cariños,\n" +
                                      "Cata & Ernesto";
